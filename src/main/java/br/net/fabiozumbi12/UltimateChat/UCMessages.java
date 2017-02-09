@@ -28,7 +28,7 @@ import org.spongepowered.api.text.chat.ChatTypes;
 import br.net.fabiozumbi12.UltimateChat.API.SendChannelMessageEvent;
 import br.net.fabiozumbi12.UltimateChat.config.UCLang;
 
-public class UCMessages {
+class UCMessages {
 
 	private static HashMap<String, String> registeredReplacers = new HashMap<String,String>();
 	private static String[] defFormat = new String[0];	
@@ -159,7 +159,6 @@ public class UCMessages {
 			
 			
 			if (!(sender instanceof ConsoleSource)){
-				msgCh.addMember(Sponge.getServer().getConsole());
 				msgCh.transformMessage(sender, Sponge.getServer().getConsole(), buildMessage(toConsole), ChatTypes.SYSTEM);
 			}			
 			
@@ -195,9 +194,7 @@ public class UCMessages {
 			if (isIgnoringPlayers(tellReceiver.getName(), sender.getName())){
 				to = Text.of(UCUtil.toText(UCLang.get("chat.ignored")),to);
 			}
-			//Sponge.getServer().getConsole().sendMessage(to);
-			msgCh.addMember(Sponge.getServer().getConsole());
-			msgCh.transformMessage(sender, Sponge.getServer().getConsole(), to, ChatTypes.SYSTEM);
+			Sponge.getServer().getConsole().sendMessage(to);
 			return null;
 		}
 		
@@ -227,7 +224,7 @@ public class UCMessages {
 		return evmsg;
 	}
 	
-	public static boolean isIgnoringPlayers(String p, String victim){
+	static boolean isIgnoringPlayers(String p, String victim){
 		List<String> list = new ArrayList<String>();
 		if (UChat.ignoringPlayer.containsKey(p)){
 			list.addAll(UChat.ignoringPlayer.get(p));			
@@ -235,7 +232,7 @@ public class UCMessages {
 		return list.contains(victim);
 	}
 	
-	public static void ignorePlayer(String p, String victim){
+	static void ignorePlayer(String p, String victim){
 		List<String> list = new ArrayList<String>();
 		if (UChat.ignoringPlayer.containsKey(p)){
 			list.addAll(UChat.ignoringPlayer.get(p));
@@ -244,7 +241,7 @@ public class UCMessages {
 		UChat.ignoringPlayer.put(p, list);
 	}
 	
-	public static void unIgnorePlayer(String p, String victim){
+	static void unIgnorePlayer(String p, String victim){
 		List<String> list = new ArrayList<String>();
 		if (UChat.ignoringPlayer.containsKey(p)){
 			list.addAll(UChat.ignoringPlayer.get(p));
@@ -397,10 +394,11 @@ public class UCMessages {
 		}
 		return "";
 	}
-	public static String mention(Object sender, CommandSource receiver, String msg) {
+	
+	private static String mention(Object sender, CommandSource receiver, String msg) {
 		if (UChat.get().getConfig().getBool("mention","enable")){
 		    for (Player p:Sponge.getServer().getOnlinePlayers()){			
-				if (StringUtils.containsIgnoreCase(msg, p.getName())){
+				if (!sender.equals(p) && StringUtils.containsIgnoreCase(msg, p.getName())){
 					if (receiver instanceof Player && receiver.equals(p)){
 						
 						String mentionc = UChat.get().getConfig().getColor("mention","color-template").replace("{mentioned-player}", p.getName());
@@ -411,6 +409,13 @@ public class UCMessages {
 							continue;
 						}
 							
+						/*
+						for (SoundType sound:Sponge.getRegistry().getAllOf(SoundType.class)){
+							if (StringUtils.containsIgnoreCase(sound.getName(),UChat.get().getConfig().getString("mention","playsound")) && !msg.contains(mentionc)){
+								((Player)receiver).playSound(sound,((Player)receiver).getLocation().getPosition(), 1, 1);
+								break;
+							}
+						}*/
 						//((Player)receiver).playSound(SoundTypes.BLOCK_NOTE_PLING,((Player)receiver).getLocation().getPosition(), 1, 1);
 						
 						Optional<SoundType> sound = Sponge.getRegistry().getType(SoundType.class, UChat.get().getConfig().getString("mention","playsound"));
@@ -429,7 +434,7 @@ public class UCMessages {
 		return msg;
 	}
 	
-	public static String formatTags(String tag, String text, Object cmdSender, Object receiver, String msg, UCChannel ch){	
+	static String formatTags(String tag, String text, Object cmdSender, Object receiver, String msg, UCChannel ch){	
 		if (receiver instanceof CommandSource && tag.equals("message")){			
 			text = text.replace("{message}", mention(cmdSender, (CommandSource)receiver, msg));
 		} else {
@@ -486,8 +491,6 @@ public class UCMessages {
 			
 			if (sub.getOption("suffix").isPresent()){
 				text = text.replace("{option_suffix}", sub.getOption("suffix").get());
-			} else {
-				text = text.replace("{option_suffix}", "&r: ");
 			}
 			
 			if (sub.getOption("display_name").isPresent()){
@@ -496,6 +499,8 @@ public class UCMessages {
 				text = text.replace("{option_display_name}", sub.getIdentifier());
 			}
 		}		
+		
+		text = text.replace("{option_suffix}", "&r: ");
 		
 		if (cmdSender instanceof CommandSource){
 			text = text.replace("{nickname}", UChat.get().getConfig().getString("general","console-tag").replace("{console}", ((CommandSource)cmdSender).getName()));

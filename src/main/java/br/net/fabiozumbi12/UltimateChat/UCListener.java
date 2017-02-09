@@ -22,7 +22,7 @@ public class UCListener {
 	private void sendTell(CommandSource p, Optional<Player> tellreceiver2, String msg){
 			
 		if (!tellreceiver2.isPresent() || !tellreceiver2.get().isOnline() || p instanceof Player && !((Player)p).canSee(tellreceiver2.get())){
-			p.sendMessage(UCLang.getText("listener.invalidplayer"));
+			UCLang.sendMessage(p, "listener.invalidplayer");
 			return;
 		}		
 		Player tellreceiver = tellreceiver2.get();
@@ -31,7 +31,7 @@ public class UCListener {
 	}
 	
 	@Listener
-	public void onChat(MessageChannelEvent.Chat e, @First CommandSource p){
+	public void onChat(MessageChannelEvent.Chat e, @First CommandSource p){				
 		if (UChat.tellPlayers.containsKey(p.getName())){
 			Optional<Player> tellreceiver = Sponge.getServer().getPlayer(UChat.tellPlayers.get(p.getName()));
 			sendTell(p, tellreceiver, e.getRawMessage().toPlain());
@@ -44,7 +44,7 @@ public class UCListener {
 			}
 			
 			if (UChat.mutes.contains(p.getName()) || ch.isMuted(p.getName())){
-				p.sendMessage(UCLang.getText("channel.muted"));
+				UCLang.sendMessage(p, "channel.muted");
 				e.setMessageCancelled(true);
 				return;
 			}			
@@ -66,10 +66,12 @@ public class UCListener {
 						TextSerializers.FORMATTING_CODE.serialize(e.getFormatter().getBody().format()),
 						TextSerializers.FORMATTING_CODE.serialize(e.getFormatter().getFooter().format())
 						}, TextSerializers.FORMATTING_CODE.serialize(e.getRawMessage()), ch, p, null);	
-				if (args == null){
+				if (args == null){					
 					e.setMessageCancelled(true);
 				} else {
-					MutableMessageChannel msgCh = (MutableMessageChannel) args[0];				
+					MutableMessageChannel msgCh = (MutableMessageChannel) args[0];	
+					msgCh.addMember(Sponge.getServer().getConsole());
+					
 					e.setChannel(msgCh);
 					e.setMessage((Text)args[1], (Text)args[2], (Text)args[3]);
 				}										

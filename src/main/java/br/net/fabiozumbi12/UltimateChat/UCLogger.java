@@ -7,7 +7,7 @@ public class UCLogger{
 	
 	private ConsoleSource console;
 	
-	public UCLogger(Server serv){
+	UCLogger(Server serv){
 		this.console = serv.getConsole();
 	}
 	 

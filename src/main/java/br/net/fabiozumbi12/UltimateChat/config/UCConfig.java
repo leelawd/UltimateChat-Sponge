@@ -55,30 +55,50 @@ public class UCConfig{
 			config.getNode("mention").setComment("Use mentions on chat to change the player name color and play a sound on mention.");
 			config.getNode("mention","enable").setValue(config.getNode("mention","enable").getBoolean(true));
 			config.getNode("mention","color-template").setValue(config.getNode("mention","color-template").getString("&e@{mentioned-player}&r"));
-			config.getNode("mention","playsound").setValue(config.getNode("mention","playsound").getString("BLOCK_NOTE_PLING"));
+			config.getNode("mention","playsound").setValue(config.getNode("mention","playsound").getString("minecraft:block.note.pling"));
 			config.getNode("mention","hover-message").setValue(config.getNode("mention","hover-message").getString("&e{playername} mentioned you!"));
 			
 			config.getNode("general").setComment("General settings.");
-			config.getNode("general","URL-template").setValue(config.getNode("general","URL-template").getString("Click to open &n{url}&r"));
-			config.getNode("general","console-tag").setValue(config.getNode("general","console-tag").getString("&6 {console}&3"));
-			config.getNode("general","remove-from-chat").setValue(config.getNode("general","remove-from-chat").getString("[]"));
-			config.getNode("general","channel-cmd-aliases").setValue(config.getNode("general","channel-cmd-aliases").getString("channel, ch"));
-			config.getNode("general","umsg-cmd-aliases").setValue(config.getNode("general","umsg-cmd-aliases").getString("umsg, pv"));
-			config.getNode("general","default-channel").setValue(config.getNode("general","default-channel").getString("l"));
-			config.getNode("general","spy-format").setValue(config.getNode("general","spy-format").getString("&c&o[Spy] {output}"));
-			config.getNode("general","default-tag-builder").setValue(config.getNode("general","default-tag-builder").getString("world,ch-tags,prefix,nickname,suffix,message"));
+			config.getNode("general","URL-template").setValue(config.getNode("general","URL-template").getString("Click to open &n{url}&r"))
+			.setComment("Template to show when players send links or urls.");
+			config.getNode("general","console-tag").setValue(config.getNode("general","console-tag").getString("&6 {console}&3"))
+			.setComment("Tag to shw when sent messagens from console to channels.");
+			config.getNode("general","remove-from-chat").setValue(config.getNode("general","remove-from-chat").getString("[]"))
+			.setComment("Remove this from chat (like empty tags)");
+			config.getNode("general","channel-cmd-aliases").setValue(config.getNode("general","channel-cmd-aliases").getString("channel, ch"))
+			.setComment("Command and aliases for /channel command.");
+			config.getNode("general","umsg-cmd-aliases").setValue(config.getNode("general","umsg-cmd-aliases").getString("umsg"))
+			.setComment("Aliases to send commands from system to players (without any format, good to send messages from other plugins direct to players).");
+			config.getNode("general","default-channel").setValue(config.getNode("general","default-channel").getString("l"))
+			.setComment("Set the efault channel for new players or when players join on server.");
+			config.getNode("general","spy-format").setValue(config.getNode("general","spy-format").getString("&c[Spy] {output}"))
+			.setComment("Chat spy format.");
+			config.getNode("general","default-tag-builder").setValue(config.getNode("general","default-tag-builder").getString("world,ch-tags,prefix,nickname,suffix,message"))
+			.setComment("This is the mains tag builder.\n"
+					+ "Change the order of this tags to change how tag is displayed on chat.\n"
+					+ "This tags represent the names of tag in this configuration.");
 			
-			config.getNode("tell","enable").setValue(config.getNode("tell","enable").getBoolean(true));
-			config.getNode("tell","cmd-aliases").setValue(config.getNode("tell","cmd-aliases").getString("tell,t,w,m,msg,private,priv"));
-			config.getNode("tell","prefix").setValue(config.getNode("tell","prefix").getString("&6[&c{playername} &6-> &c{receivername}&6]: "));
-			config.getNode("tell","format").setValue(config.getNode("tell","format").getString("{message}"));
-			config.getNode("tell","hover-messages").setValue(config.getNode("tell","hover-messages").getString(""));
+			config.getNode("tell","enable").setValue(config.getNode("tell","enable").getBoolean(true))
+			.setComment("Enabling tell wil unregister other plugins tell like nucleus tell, and will use only this tell.");
+			config.getNode("tell","cmd-aliases").setValue(config.getNode("tell","cmd-aliases").getString("tell,t,w,m,msg,private,priv"))
+			.setComment("Aliases for tell command.");
+			config.getNode("tell","prefix").setValue(config.getNode("tell","prefix").getString("&6[&c{playername} &6-> &c{receivername}&6]: "))
+			.setComment("Prefix of tell messages.");
+			config.getNode("tell","format").setValue(config.getNode("tell","format").getString("{message}"))
+			.setComment("Suffix (or message) of tell.");
+			config.getNode("tell","hover-messages").setValue(config.getNode("tell","hover-messages").getString(""))
+			.setComment("Hover messages to show on tell messages.");
 			
-			config.getNode("broadcast","enable").setValue(config.getNode("broadcast","enable").getBoolean(true));
-			config.getNode("broadcast","on-hover").setValue(config.getNode("broadcast","on-hover").getString("hover:"));
-			config.getNode("broadcast","on-click").setValue(config.getNode("broadcast","on-click").getString("click:"));
-			config.getNode("broadcast","url").setValue(config.getNode("broadcast","url").getString("url:"));
-			config.getNode("broadcast","aliases").setValue(config.getNode("broadcast","aliases").getString("broadcast,broad,announce,say,action,all,anunciar,todos"));
+			config.getNode("broadcast","enable").setValue(config.getNode("broadcast","enable").getBoolean(true))
+			.setComment("Enable broadcast. Enabling this will unregister any other broadcasts commands using the same aliases.");
+			config.getNode("broadcast","on-hover").setValue(config.getNode("broadcast","on-hover").getString("hover:"))
+			.setComment("Tag to use on broadcast message to set a hover message.");
+			config.getNode("broadcast","on-click").setValue(config.getNode("broadcast","on-click").getString("click:"))
+			.setComment("Tag to use on broadcast message to set a click event.");
+			config.getNode("broadcast","url").setValue(config.getNode("broadcast","url").getString("url:"))
+			.setComment("Tag to use on broadcast message to set a hover event.");
+			config.getNode("broadcast","aliases").setValue(config.getNode("broadcast","aliases").getString("broadcast,broad,announce,say,action,all,anunciar,todos"))
+			.setComment("Aliases to use for broadcast.");
 			
 			if (!config.getNode("tags").hasMapChildren()){
 				config.getNode("tags","prefix","format").setValue("{option_prefix}");
@@ -252,6 +272,7 @@ public class UCConfig{
     					+ " - {chat_header}: Get the header of chat;\n"
     					+ " - {chat_body}: Get the body of chat;\n"
     					+ " - {chat_footer}: Get the footer of chat;\n"
+    					+ " - {chat_all}: Get all default formats;\n"
     					+ "");
     		}
     		if (lang.equalsIgnoreCase("PT-BR")){
@@ -289,6 +310,7 @@ public class UCConfig{
     					+ " - {chat_header}: Pega a header do chat;\n"
     					+ " - {chat_body}: Pega o body do chat;\n"
     					+ " - {chat_footer}: Pega o footer do chat;\n"
+    					+ " - {chat_all}: Pega todos formatos padrão do chat;\n"
     					+ "\n");
     		}
     		
@@ -491,11 +513,7 @@ public class UCConfig{
 		}
 		return new ArrayList<String>();
 	}
-	
-    public boolean containsProtKey(Object... key){		
-		return prots.getNode(key).getValue() != null;
-	}
-    
+	        
 	public String getProtString(Object... key){
 		return prots.getNode(key).getString(key.toString());
 	}

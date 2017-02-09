@@ -44,14 +44,8 @@ public class UCChannel {
 		this.availableWorlds = availableWorlds;	
 		this.canLock = lock;
 	}
-	
-	public UCChannel(String name, String alias, String color) {
-		this.name = name;
-		this.alias = alias;
-		this.color = color;
-	}
-	
-	public UCChannel(String name) {
+			
+	UCChannel(String name) {
 		this.name = name;
 		this.alias = name.substring(0, 1).toLowerCase();
 	}
@@ -60,7 +54,7 @@ public class UCChannel {
 		return this.canLock;
 	}
 	
-	public boolean availableInWorld(World w){
+	boolean availableInWorld(World w){
 		return this.availableWorlds.contains(w.getName());
 	}
 	
@@ -116,19 +110,19 @@ public class UCChannel {
 		return this.mutes.contains(player);
 	}
 	
-	public void ignoreThis(String player){
+	void ignoreThis(String player){
 		if (!this.ignoring.contains(player)){
 			this.ignoring.add(player);
 		}		
 	}
 	
-	public void unIgnoreThis(String player){
+	void unIgnoreThis(String player){
 		if (this.ignoring.contains(player)){
 			this.ignoring.remove(player);
 		}		
 	}
 	
-	public boolean isIgnoring(String player){
+	boolean isIgnoring(String player){
 		return this.ignoring.contains(player);
 	}
 	
@@ -163,11 +157,7 @@ public class UCChannel {
 	public boolean neeFocus() {
 		return this.focus;
 	}
-	
-	public boolean matchChannel(String aliasOrName){
-		return this.alias.equalsIgnoreCase(aliasOrName) || this.name.equalsIgnoreCase(aliasOrName);
-	}
-
+		
 	public boolean isBungee() {		
 		return this.bungee ;
 	}

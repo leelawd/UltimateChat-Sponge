@@ -23,11 +23,11 @@ public class UCUtil {
     	return TextSerializers.FORMATTING_CODE.deserialize(str);
     }
 
-	public static String toColor(String str){
+	static String toColor(String str){
     	return str.replaceAll("(&([a-fk-or0-9]))", "\u00A7$2"); 
     }
 	
-	public static String stripColor(String str) {
+	static String stripColor(String str) {
 		return str.replaceAll("(&([a-fk-or0-9]))", "");
 	}
 	
@@ -47,7 +47,7 @@ public class UCUtil {
 		}
 	}
 		
-	public static boolean sendBroadcast(CommandSource sender, String[] args, boolean silent){
+	static boolean sendBroadcast(CommandSource sender, String[] args, boolean silent){
 		StringBuilder message = new StringBuilder();
 		 StringBuilder hover = new StringBuilder();
 		 StringBuilder cmdline = new StringBuilder();

@@ -26,9 +26,9 @@ import com.google.inject.Inject;
 
 @Plugin(id = "ultimatechat", 
 name = "UltimateChat", 
-version = "1.0.0",
+version = "1.7.0",
 authors="FabioZumbi12", 
-description="Complete chat plugin")
+description="Complete and advanced chat plugin")
 public class UChat {
 
 	private UCLogger logger;
@@ -77,14 +77,14 @@ public class UChat {
 		return uchat;
 	}
 
-	public static HashMap<String,String> pChannels = new HashMap<String,String>();
-	public static HashMap<String,String> tempChannels = new HashMap<String,String>();
-	public static HashMap<String,String> tellPlayers = new HashMap<String,String>();
-	public static HashMap<String,String> tempTellPlayers = new HashMap<String,String>();
-	public static HashMap<String,String> respondTell = new HashMap<String,String>();
-	public static HashMap<String,List<String>> ignoringPlayer = new HashMap<String,List<String>>();
-	public static List<String> mutes = new ArrayList<String>();
-	public static List<String> isSpy = new ArrayList<String>();
+	static HashMap<String,String> pChannels = new HashMap<String,String>();
+	static HashMap<String,String> tempChannels = new HashMap<String,String>();
+	static HashMap<String,String> tellPlayers = new HashMap<String,String>();
+	static HashMap<String,String> tempTellPlayers = new HashMap<String,String>();
+	static HashMap<String,String> respondTell = new HashMap<String,String>();
+	static HashMap<String,List<String>> ignoringPlayer = new HashMap<String,List<String>>();
+	static List<String> mutes = new ArrayList<String>();
+	static List<String> isSpy = new ArrayList<String>();
 		
 	@Listener
     public void onServerStart(GameStartedServerEvent event) {	

@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Properties;
-import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 
@@ -27,23 +26,13 @@ import br.net.fabiozumbi12.UltimateChat.UChat;
 public class UCLang {
 	
 	private static final HashMap<CommandSource, String> DelayedMessage = new HashMap<CommandSource, String>();
-	static HashMap<String, String> BaseLang = new HashMap<String, String>();
-	public static HashMap<String, String> Lang = new HashMap<String, String>();
+	private static HashMap<String, String> BaseLang = new HashMap<String, String>();
+	private static HashMap<String, String> Lang = new HashMap<String, String>();
 	//static List<String> langString = new ArrayList<String>();
-    static String pathLang;
-    static File langFile;
-    static String resLang; 
-    
-    public SortedSet<String> helpStrings(){
-		SortedSet<String> values = new TreeSet<String>();
-		for (String help:Lang.keySet()){
-			if (help.startsWith("cmdmanager.help.")){
-				values.add(help.replace("cmdmanager.help.", ""));
-			}
-		}
-		return values;
-	}
-	
+    private static String pathLang;
+    private static File langFile;
+    private static String resLang; 
+        	
 	public static void init() {
 		pathLang = UChat.get().configDir() + File.separator + "lang" + UChat.get().getConfig().getString("language") + ".properties"; 
 		langFile = new File(pathLang);
@@ -199,7 +188,4 @@ public class UCLang {
 			},1, TimeUnit.SECONDS);	
 	}
 		
-	public boolean containsValue(String value){
-		return Lang.containsValue(value);
-	}
 }

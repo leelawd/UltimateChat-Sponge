@@ -1,6 +1,7 @@
-package br.net.fabiozumbi12.UltimateChat.config;
+package br.net.fabiozumbi12.UltimateChat;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.ArgumentParseException;
@@ -8,8 +9,6 @@ import org.spongepowered.api.command.args.CommandArgs;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.text.Text;
-
-import br.net.fabiozumbi12.UltimateChat.UChat;
 
 public class ChannelCommandElement extends CommandElement {
 
@@ -25,8 +24,8 @@ public class ChannelCommandElement extends CommandElement {
 
 	@Override
 	public List<String> complete(CommandSource src, CommandArgs args,
-			CommandContext context) {
-		return UChat.get().getConfig().getChAliases();
+			CommandContext context) {		
+		return UChat.get().getConfig().getChAliases().stream().filter(key->UChat.get().getPerms().channelPerm(src, key)).sorted().collect(Collectors.toList());
 	}
 	
 	@Override

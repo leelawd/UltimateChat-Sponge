@@ -1,2 +1,2 @@
 # UltimateChat
-Ultimate and advanced Chat for Bukkit
+Ultimate and advanced Chat for Sponge
