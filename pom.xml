@@ -12,6 +12,13 @@
     <spongeVersion>6.0.0-SNAPSHOT</spongeVersion>
   </properties>
 
+   <scm>
+     <connection>scm:git:git@github.com:FabioZumbi12/UltimateChat-Sponge.git</connection>
+     <developerConnection>scm:git:git@github.com:FabioZumbi12/UltimateChat-Sponge.git</developerConnection>
+     <url>https://github.com/FabioZumbi12/UltimateChat-Sponge/tree/master</url>
+     <tag>${project.version}</tag>
+  </scm>
+  
   <repositories>
     <repository>
         <id>sponge-maven-repo</id>
@@ -37,7 +44,7 @@
   </dependencies>
   
   <build>
-    <finalName>${project.name}<!-- -${buildNumber} --></finalName>
+    <finalName>${project.name}-${buildNumber}</finalName>
     <defaultGoal>clean package</defaultGoal>
     
     <plugins>
@@ -51,8 +58,7 @@
           <target>1.8</target>
         </configuration>        
       </plugin>
-  
-     <!-- 
+       
     <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>buildnumber-maven-plugin</artifactId>
@@ -73,7 +79,7 @@
             <item>buildNumber0</item>
           </items>
         </configuration>
-      </plugin> -->
+      </plugin>
 
     </plugins>
   </build>
