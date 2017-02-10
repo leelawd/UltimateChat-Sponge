@@ -412,9 +412,9 @@ public class UCCommands {
 			    .description(Text.of("Main command for uchat."))
 			    .executor((src, args) -> { {	    	
 			    	//no args
-			    	src.sendMessage(UCUtil.toText("&b---------------- " + UChat.plugin.getName() + " ----------------"));
+			    	src.sendMessage(UCUtil.toText("&b---------------- "+UChat.plugin.getName()+" "+UChat.plugin.getVersion().get()+" ---------------"));
 			    	src.sendMessage(UCUtil.toText("&bDeveloped by &6" + UChat.plugin.getAuthors().get(0) + "."));
-			    	src.sendMessage(UCUtil.toText("&bFor more information about the commands, type [" + "&6/uchat ? &b]."));
+			    	src.sendMessage(UCUtil.toText("&bFor more information about the commands, type [" + "&6/uchat ?&b]."));
 			    	src.sendMessage(UCUtil.toText("&b---------------------------------------------------"));			         
 			    	return CommandResult.success();	
 			    }})

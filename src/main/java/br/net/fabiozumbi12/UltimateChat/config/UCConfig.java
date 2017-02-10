@@ -272,12 +272,23 @@ public class UCConfig{
     					+ " - {option_suffix}: Get the suffix of group (if set);\n"
     					+ " - {option_display_name}: Get the custom name of group (if set);\n"
     					+ " - {option_<key option>}: Get some custom key option from your group in permissions like {option_home-count} to get home count from Nucleus;\n"
+    					+ "\n"
     					+ "Vanilla Chat:\n"
     					+ " - {chat_header}: Get the header of chat;\n"
     					+ " - {chat_body}: Get the body of chat;\n"
     					+ " - {chat_footer}: Get the footer of chat;\n"
     					+ " - {chat_all}: Get all default formats;\n"
-    					+ "");
+    					+ "\n"
+    					+ "MCClans:\n"
+    					+ " - {clan_name}: The name of clan;\n"
+    					+ " - {clan_tag}: Clan tag;\n"
+    					+ " - {clan_tag_color}: Clan tag with colors;\n"
+    					+ " - {clan_kdr}: Clan KDR;\n"
+    					+ " - {clan_player_rank}: Get the player rank on Clan;\n"
+    					+ " - {clan_player_kdr}: Get the player KDR;\n"
+    					+ " - {clan_player_ffprotected}: Get if player is friendly fire protected;\n"
+    					+ " - {clan_player_isowner}: Get if this player os owner of this Clan;\n"
+    					+ "\n");
     		}
     		if (lang.equalsIgnoreCase("PT-BR")){
     			config.getNode("_config-version").setComment(""
@@ -310,11 +321,22 @@ public class UCConfig{
     					+ " - {option_suffix}: Pega o suffix do grupo (se usado);\n"
     					+ " - {option_display_name}: Pega o nome customizado do grupo (se usado);\n"
     					+ " - {option_<key option>}: Pega qualquer opção customizada se estiver sendo usada nas permissões como {option_home-count} pra pegar as homes do Nucleus;\n"
+    					+ "\n"
     					+ "Vanilla Chat:\n"
     					+ " - {chat_header}: Pega a header do chat;\n"
     					+ " - {chat_body}: Pega o body do chat;\n"
     					+ " - {chat_footer}: Pega o footer do chat;\n"
     					+ " - {chat_all}: Pega todos formatos padrão do chat;\n"
+    					+ "\n"
+    					+ "MCClans:\n"
+    					+ " - {clan_name}: O nome do Clan;\n"
+    					+ " - {clan_tag}: Tag do Clan;\n"
+    					+ " - {clan_tag_color}: Tag do Clan com cores;\n"
+    					+ " - {clan_kdr}: Clan KDR;\n"
+    					+ " - {clan_player_rank}: Pega o rank do player no clan Clan;\n"
+    					+ " - {clan_player_kdr}: O KDR do player;\n"
+    					+ " - {clan_player_ffprotected}: Pega se o player esta protegido pelo fogo-amigo;\n"
+    					+ " - {clan_player_isowner}: Pega se o player é dono do Clan;\n"
     					+ "\n");
     		}
     		

@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
+
+import nl.riebie.mcclans.api.ClanService;
 
 import org.spongepowered.api.Game;
 import org.spongepowered.api.Server;
@@ -15,6 +18,7 @@ import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 import org.spongepowered.api.event.service.ChangeServiceProviderEvent;
+import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.economy.EconomyService;
@@ -28,7 +32,8 @@ import com.google.inject.Inject;
 name = "UltimateChat", 
 version = "1.7.0",
 authors="FabioZumbi12", 
-description="Complete and advanced chat plugin")
+description="Complete and advanced chat plugin",
+dependencies=@Dependency(id = "mcclans"))
 public class UChat {
 
 	private UCLogger logger;
@@ -76,6 +81,11 @@ public class UChat {
 	public static UChat get(){
 		return uchat;
 	}
+	
+	private ClanService clanService;
+	public ClanService getClan(){
+		return this.clanService;
+	}
 
 	static HashMap<String,String> pChannels = new HashMap<String,String>();
 	static HashMap<String,String> tempChannels = new HashMap<String,String>();
@@ -84,7 +94,7 @@ public class UChat {
 	static HashMap<String,String> respondTell = new HashMap<String,String>();
 	static HashMap<String,List<String>> ignoringPlayer = new HashMap<String,List<String>>();
 	static List<String> mutes = new ArrayList<String>();
-	static List<String> isSpy = new ArrayList<String>();
+	static List<String> isSpy = new ArrayList<String>();	
 		
 	@Listener
     public void onServerStart(GameStartedServerEvent event) {	
@@ -114,7 +124,13 @@ public class UChat {
             	}
             }
             
-            get().getLogger().sucess(plugin.getName()+" enabled!");
+            //hook MCClans
+            Optional<ClanService> clanServiceOpt = Sponge.getServiceManager().provide(ClanService.class);
+            if (clanServiceOpt.isPresent()) {
+                clanService = clanServiceOpt.get();
+            }
+            
+            get().getLogger().sucess(plugin.getName()+" "+plugin.getVersion().get()+" enabled!");
             
         } catch (Exception e){
         	e.printStackTrace();

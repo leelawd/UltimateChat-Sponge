@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import nl.riebie.mcclans.api.ClanPlayer;
+import nl.riebie.mcclans.api.ClanService;
+
 import org.apache.commons.lang3.StringUtils;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandSource;
@@ -24,6 +27,7 @@ import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.channel.MessageChannel;
 import org.spongepowered.api.text.channel.MutableMessageChannel;
 import org.spongepowered.api.text.chat.ChatTypes;
+import org.spongepowered.api.text.serializer.TextSerializers;
 
 import br.net.fabiozumbi12.UltimateChat.API.SendChannelMessageEvent;
 import br.net.fabiozumbi12.UltimateChat.config.UCLang;
@@ -408,15 +412,6 @@ class UCMessages {
 							msg = msg.replaceAll("(?i)\\b"+p.getName()+"\\b", p.getName());
 							continue;
 						}
-							
-						/*
-						for (SoundType sound:Sponge.getRegistry().getAllOf(SoundType.class)){
-							if (StringUtils.containsIgnoreCase(sound.getName(),UChat.get().getConfig().getString("mention","playsound")) && !msg.contains(mentionc)){
-								((Player)receiver).playSound(sound,((Player)receiver).getLocation().getPosition(), 1, 1);
-								break;
-							}
-						}*/
-						//((Player)receiver).playSound(SoundTypes.BLOCK_NOTE_PLING,((Player)receiver).getLocation().getPosition(), 1, 1);
 						
 						Optional<SoundType> sound = Sponge.getRegistry().getType(SoundType.class, UChat.get().getConfig().getString("mention","playsound"));
 						if (sound.isPresent() && !msg.contains(mentionc)){
@@ -497,6 +492,22 @@ class UCMessages {
 				text = text.replace("{option_display_name}", sub.getOption("display_name").get());
 			} else {
 				text = text.replace("{option_display_name}", sub.getIdentifier());
+			}
+			
+			if (UChat.get().getClan() != null){
+				ClanService clan = UChat.get().getClan();
+				ClanPlayer cp = clan.getClanPlayer(sender.getUniqueId());
+				if (cp.isMemberOfAClan()){
+					text = text
+							.replace("{clan_name}", cp.getClan().getName())
+							.replace("{clan_tag}", cp.getClan().getTag())
+							.replace("{clan_tag_color}", TextSerializers.FORMATTING_CODE.serialize(cp.getClan().getTagColored()))
+							.replace("{clan_kdr}", ""+cp.getClan().getKDR())
+							.replace("{clan_player_rank}", ""+cp.getRank().getName())
+							.replace("{clan_player_kdr}", ""+cp.getKillDeath().getKDR())
+							.replace("{clan_player_ffprotected}", String.valueOf(cp.isFfProtected()))
+							.replace("{clan_player_isowner}", String.valueOf(cp.getClan().getOwner().equals(cp)));
+				}				
 			}
 		}		
 		
