@@ -62,7 +62,7 @@ public class UCConfig{
 			config.getNode("general","URL-template").setValue(config.getNode("general","URL-template").getString("Click to open &n{url}&r"))
 			.setComment("Template to show when players send links or urls.");
 			config.getNode("general","console-tag").setValue(config.getNode("general","console-tag").getString("&6 {console}&3"))
-			.setComment("Tag to shw when sent messagens from console to channels.");
+			.setComment("Tag to show when sent messagens from console to channels.");
 			config.getNode("general","remove-from-chat").setValue(config.getNode("general","remove-from-chat").getString("[]"))
 			.setComment("Remove this from chat (like empty tags)");
 			config.getNode("general","channel-cmd-aliases").setValue(config.getNode("general","channel-cmd-aliases").getString("channel, ch"))
@@ -74,12 +74,12 @@ public class UCConfig{
 			config.getNode("general","spy-format").setValue(config.getNode("general","spy-format").getString("&c[Spy] {output}"))
 			.setComment("Chat spy format.");
 			config.getNode("general","default-tag-builder").setValue(config.getNode("general","default-tag-builder").getString("world,ch-tags,prefix,nickname,suffix,message"))
-			.setComment("This is the mains tag builder.\n"
+			.setComment("This is the main tag builder.\n"
 					+ "Change the order of this tags to change how tag is displayed on chat.\n"
 					+ "This tags represent the names of tag in this configuration.");
 			
 			config.getNode("tell","enable").setValue(config.getNode("tell","enable").getBoolean(true))
-			.setComment("Enabling tell wil unregister other plugins tell like nucleus tell, and will use only this tell.");
+			.setComment("Enabling tell will unregister other plugins using tell like nucleus, and will use only this tell.");
 			config.getNode("tell","cmd-aliases").setValue(config.getNode("tell","cmd-aliases").getString("tell,t,w,m,msg,private,priv"))
 			.setComment("Aliases for tell command.");
 			config.getNode("tell","prefix").setValue(config.getNode("tell","prefix").getString("&6[&c{playername} &6-> &c{receivername}&6]: "))
@@ -100,6 +100,10 @@ public class UCConfig{
 			config.getNode("broadcast","aliases").setValue(config.getNode("broadcast","aliases").getString("broadcast,broad,announce,say,action,all,anunciar,todos"))
 			.setComment("Aliases to use for broadcast.");
 			
+			config.getNode("tags").setComment("This is where you will create as many tags you want.\n"
+					+ "You can use the tag \"custon-tag\" as base to create your own tags.\n"
+					+ "When finish, get the name of your tag and put on \"general.default-tag-build\" \n"
+					+ "or on channel builder on \"channels\" folder.");
 			if (!config.getNode("tags").hasMapChildren()){
 				config.getNode("tags","prefix","format").setValue("{option_prefix}");
 				config.getNode("tags","prefix","hover-messages").setValue(Arrays.asList("&3Rank: &f{option_display_name}"));
