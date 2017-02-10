@@ -494,21 +494,24 @@ class UCMessages {
 				text = text.replace("{option_display_name}", sub.getIdentifier());
 			}
 			
-			if (UChat.get().getClan() != null){
-				ClanService clan = UChat.get().getClan();
-				ClanPlayer cp = clan.getClanPlayer(sender.getUniqueId());
-				if (cp.isMemberOfAClan()){
-					text = text
-							.replace("{clan_name}", cp.getClan().getName())
-							.replace("{clan_tag}", cp.getClan().getTag())
-							.replace("{clan_tag_color}", TextSerializers.FORMATTING_CODE.serialize(cp.getClan().getTagColored()))
-							.replace("{clan_kdr}", ""+cp.getClan().getKDR())
-							.replace("{clan_player_rank}", ""+cp.getRank().getName())
-							.replace("{clan_player_kdr}", ""+cp.getKillDeath().getKDR())
-							.replace("{clan_player_ffprotected}", String.valueOf(cp.isFfProtected()))
-							.replace("{clan_player_isowner}", String.valueOf(cp.getClan().getOwner().equals(cp)));
-				}				
-			}
+			if (UChat.get().getConfig().getBool("hooks","MCClans","enable")){
+				Optional<ClanService> clanServiceOpt = Sponge.getServiceManager().provide(ClanService.class);
+                if (clanServiceOpt.isPresent()) {
+					ClanService clan = clanServiceOpt.get();
+					ClanPlayer cp = clan.getClanPlayer(sender.getUniqueId());
+					if (cp.isMemberOfAClan()){
+						text = text
+								.replace("{clan_name}", cp.getClan().getName())
+								.replace("{clan_tag}", cp.getClan().getTag())
+								.replace("{clan_tag_color}", TextSerializers.FORMATTING_CODE.serialize(cp.getClan().getTagColored()))
+								.replace("{clan_kdr}", ""+cp.getClan().getKDR())
+								.replace("{clan_player_rank}", ""+cp.getRank().getName())
+								.replace("{clan_player_kdr}", ""+cp.getKillDeath().getKDR())
+								.replace("{clan_player_ffprotected}", String.valueOf(cp.isFfProtected()))
+								.replace("{clan_player_isowner}", String.valueOf(cp.getClan().getOwner().equals(cp)));
+					}				
+				}
+			}			
 		}		
 		
 		text = text.replace("{option_suffix}", "&r: ");

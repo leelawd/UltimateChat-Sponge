@@ -100,6 +100,9 @@ public class UCConfig{
 			config.getNode("broadcast","aliases").setValue(config.getNode("broadcast","aliases").getString("broadcast,broad,announce,say,action,all,anunciar,todos"))
 			.setComment("Aliases to use for broadcast.");
 			
+			config.getNode("hooks").setComment("Enable hook with other plugins here. Only enable if installed.");
+			config.getNode("hooks","MCClans","enable").setValue(config.getNode("hooks","MCClans","enable").getBoolean(false));
+			
 			config.getNode("tags").setComment("This is where you will create as many tags you want.\n"
 					+ "You can use the tag \"custon-tag\" as base to create your own tags.\n"
 					+ "When finish, get the name of your tag and put on \"general.default-tag-build\" \n"
