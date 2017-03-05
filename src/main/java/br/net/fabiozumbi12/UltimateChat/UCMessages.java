@@ -68,7 +68,7 @@ class UCMessages {
 		//send to event
 		MutableMessageChannel msgCh = MessageChannel.TO_CONSOLE.asMutable();
 				
-		evmsg = UCChatProtection.filterChatMessage(sender, evmsg);
+		evmsg = UCChatProtection.filterChatMessage(sender, evmsg, event.getChannel());
 		if (evmsg == null){
 			return null;
 		}
@@ -476,24 +476,24 @@ class UCMessages {
 						.replace("{balance}", ""+acc.getBalance(UChat.get().getEco().getDefaultCurrency()).intValue());
 			}
 			
-			Subject sub = UChat.get().getPerms().getGroupAndTag(sender);
-			
-			text = text.replace("{option_group}", sub.getIdentifier());
-			
-			if (sub.getOption("prefix").isPresent()){
-				text = text.replace("{option_prefix}", sub.getOption("prefix").get());
-			}
-			
-			if (sub.getOption("suffix").isPresent()){
-				text = text.replace("{option_suffix}", sub.getOption("suffix").get());
-			}
-			
-			if (sub.getOption("display_name").isPresent()){
-				text = text.replace("{option_display_name}", sub.getOption("display_name").get());
-			} else {
-				text = text.replace("{option_display_name}", sub.getIdentifier());
-			}
-			
+			Subject sub = UChat.get().getPerms().getGroupAndTag(sender);			
+			if (sub != null){
+				text = text.replace("{option_group}", sub.getIdentifier());
+				if (sub.getOption("prefix").isPresent()){
+					text = text.replace("{option_prefix}", sub.getOption("prefix").get());
+				}
+				
+				if (sub.getOption("suffix").isPresent()){
+					text = text.replace("{option_suffix}", sub.getOption("suffix").get());
+				}
+				
+				if (sub.getOption("display_name").isPresent()){
+					text = text.replace("{option_display_name}", sub.getOption("display_name").get());
+				} else {
+					text = text.replace("{option_display_name}", sub.getIdentifier());
+				}
+			}			
+						
 			if (UChat.get().getConfig().getBool("hooks","MCClans","enable")){
 				Optional<ClanService> clanServiceOpt = Sponge.getServiceManager().provide(ClanService.class);
                 if (clanServiceOpt.isPresent()) {

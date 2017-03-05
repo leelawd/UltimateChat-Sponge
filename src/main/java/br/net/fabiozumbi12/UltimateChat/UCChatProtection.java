@@ -18,7 +18,7 @@ class UCChatProtection {
 	private static HashMap<Player,Integer> UrlSpam = new HashMap<Player,Integer>();
 	private static List<String> muted = new ArrayList<String>();
 	
-	public static String filterChatMessage(CommandSource source, String msg){
+	public static String filterChatMessage(CommandSource source, String msg, UCChannel chan){
 		if (!(source instanceof Player)){
 			return msg;
 		}
@@ -78,6 +78,7 @@ class UCChatProtection {
 				
 		//censor
 		if (UChat.get().getConfig().getProtBool("chat-protection","censor","enable") && !p.hasPermission("uchat.bypass-censor")){
+			int act = 0;
 			for (String word:UChat.get().getConfig().getProtStringList("chat-protection","censor","replace-words")){
 				if (!StringUtils.containsIgnoreCase(msg, word)){
 					continue;
@@ -89,8 +90,28 @@ class UCChatProtection {
 				
 				if (!UChat.get().getConfig().getProtBool("chat-protection","censor","replace-partial-word")){
 					msg = msg.replaceAll("(?i)"+"\\b"+Pattern.quote(word)+"\\b", replaceby);
+					if (UChat.get().getConfig().getProtBool("chat-protection","censor","action","partial-words")){
+						act++;
+					}
 				} else {
 					msg = msg.replaceAll("(?i)"+word, replaceby);
+					act++;
+				}				
+			}
+			if (act > 0){
+				String action = UChat.get().getConfig().getProtString("chat-protection","censor","action","cmd");
+				if (action.length() > 1){
+					List<String> chs = UChat.get().getConfig().getProtStringList("chat-protection","censor","action","only-on-channels");
+					if (chs.size() > 0 && chs.get(0).length() > 1 && chan != null){
+						for (String ch:chs){
+							if (ch.length() > 1 && (ch.equalsIgnoreCase(chan.getName()) || ch.equalsIgnoreCase(chan.getAlias()))){
+								Sponge.getCommandManager().process(Sponge.getServer().getConsole(), action.replace("{player}", p.getName()));
+								break;
+							}
+						}
+					} else {
+						Sponge.getCommandManager().process(Sponge.getServer().getConsole(), action.replace("{player}", p.getName()));
+					}					
 				}
 			}
 		}

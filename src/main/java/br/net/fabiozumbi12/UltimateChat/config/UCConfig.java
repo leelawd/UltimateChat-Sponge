@@ -129,13 +129,29 @@ public class UCConfig{
 				config.getNode("tags","ch-tags","hover-messages").setValue(Arrays.asList("&3Channel name: {ch-color}{ch-name}","&bClick to join this channel"));
 				
 				config.getNode("tags","admin-chat","format").setValue("&b[&r{playername}&b]&r: &b");
-				
+												
 				config.getNode("tags","custom-tag","format").setValue("&7[&2MyTag&7]");
 				config.getNode("tags","custom-tag","click-cmd").setValue("");
 				config.getNode("tags","custom-tag","hover-messages").setValue(Arrays.asList(""));
 				config.getNode("tags","custom-tag","permission").setValue("any-name-perm.custom-tag");
 				config.getNode("tags","custom-tag","show-in-worlds").setValue(Arrays.asList(""));
 				config.getNode("tags","custom-tag","hide-in-worlds").setValue(Arrays.asList(""));				
+			}
+			
+			/*------------------------ add new configs -------------------------*/
+			int update = 0;
+			if (config.getNode("_config-version").getDouble() < 1.1){
+				config.getNode("_config-version").setValue(1.1);
+				
+				config.getNode("tags","vannila-chat").setComment("This is the default vanilla chat format.\n"
+						+ "Add this tag name to the default-builder if you want to use \n"
+						+ "vanilla or if other plugins have modificed the tags like nickname of Nucleus.");
+				config.getNode("tags","vannila-chat","format").setValue("{chat_header}{chat_body}");
+				update++;
+			}
+			
+			if (update > 0){
+				UChat.get().getLogger().warning("Configuration updated with new options.");
 			}
 			
 			/*--------------------- protections.conf ---------------------------*/
@@ -166,6 +182,9 @@ public class UCConfig{
 			prots.getNode("chat-protection","censor","by-symbol").setValue(prots.getNode("chat-protection","censor","by-symbol").getString("*"));
 			prots.getNode("chat-protection","censor","by-word").setValue(prots.getNode("chat-protection","censor","by-word").getString("censored"));
 			prots.getNode("chat-protection","censor","replace-partial-word").setValue(prots.getNode("chat-protection","censor","replace-partial-word").getBoolean(false));
+			prots.getNode("chat-protection","censor","action","cmd").setValue(prots.getNode("chat-protection","censor","action","cmd").getString(""));
+			prots.getNode("chat-protection","censor","action","only-on-channels").setValue(prots.getNode("chat-protection","censor","action","only-on-channels").getList(TypeToken.of(String.class), Arrays.asList("global")));
+			prots.getNode("chat-protection","censor","action","partial-words").setValue(prots.getNode("chat-protection","censor","action","partial-words").getBoolean(false));
 			prots.getNode("chat-protection","censor","replace-words")
 			.setValue(prots.getNode("chat-protection","censor","replace-words").getList(TypeToken.of(String.class), Arrays.asList("word1")));
 			
